@@ -7,7 +7,7 @@ using UnityEngine;
 public class Agent : MonoBehaviour
 {
     [Header("Main")]
-    [SerializeField] float forseMult = 200f;
+    [SerializeField] float forseMult = 10f;
     [SerializeField] int startHP = 3;
 
     int hp;
@@ -21,14 +21,16 @@ public class Agent : MonoBehaviour
     void StartMove()
     {
         GetComponent<Collider>().enabled = true;
+
         GetComponent<Rigidbody>().AddForce(
-            new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f)) * forseMult, 
+            new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)) * forseMult, 
             ForceMode.Impulse);
         GetComponent<MeshRenderer>().material.color = Random.ColorHSV();
     }
 
     void StopMove()
     {
+        GetComponent<Collider>().enabled = false;
         GetComponent<Rigidbody>().velocity = Vector3.zero;
         GetComponent<Animator>().SetTrigger("fadeIn");
     }
@@ -37,6 +39,10 @@ public class Agent : MonoBehaviour
     {
         EventsManager.instance.AgentOffTrigger(gameObject);
         gameObject.SetActive(false);
+
+#if UNITY_EDITOR
+        Debug.Log("ActiveOff()");
+# endif
     }
 
 
@@ -48,7 +54,6 @@ public class Agent : MonoBehaviour
             if(hp <= 0)
             {
                 StopMove();
-                ActiveOff();
             }
         }
     }

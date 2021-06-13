@@ -14,7 +14,7 @@ public class AgentsSpawner : MonoBehaviour
 
     [Header("Agent")]
     [SerializeField] GameObject agentPref;
-    [SerializeField] float agentSize = 0.1f;
+    [SerializeField] float agentSize = 1f;
 
 
     List<GameObject> agentBufferList;
@@ -91,8 +91,6 @@ public class AgentsSpawner : MonoBehaviour
         box = gameObject.AddComponent<BoxCollider>();
         box.size = new Vector3(zoneLength + 1, 1, zoneLength + 1);
         box.center = new Vector3(0, -zoneLength / 2 - box.size.y / 2, 0);
-
-
     }
 
     void AddToBuffer(GameObject obj)
@@ -123,17 +121,28 @@ public class AgentsSpawner : MonoBehaviour
                 index++;
 
                 agent.transform.position = new Vector3(
-                    Random.Range(-zoneLength, zoneLength), 0, Random.Range(-zoneLength, zoneLength));
+                    Random.Range(-zoneLength/2, zoneLength/2), 
+                    Random.Range(-zoneLength / 2, zoneLength / 2), 
+                    Random.Range(-zoneLength/2, zoneLength/2));
             }
             else
             {
                 agent = agentBufferList[0];
                 agentBufferList.Remove(agent);
 
+                agent.transform.position = new Vector3(
+                    Random.Range(-zoneLength/2 + agentSize, zoneLength/2 - agentSize), 
+                    Random.Range(-zoneLength / 2 + agentSize, zoneLength / 2 - agentSize), 
+                    Random.Range(-zoneLength/2 + agentSize, zoneLength/2) - agentSize);
+
+                agent.transform.localScale = Vector3.one * agentSize;
+
                 agent.SetActive(true);
             }
 
             currentAgentCount++;
+
+            StartCoroutine(Spawn());
         }
     }
 }

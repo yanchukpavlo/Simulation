@@ -376,6 +376,7 @@ MonoBehaviour:
   maxTameToSpawn: 10
   zoneLength: 10
   agentPref: {fileID: 1406922541281799032, guid: 7fa564e2eb5cd2840b2de605983bdc10, type: 3}
+  agentSize: 1
 --- !u!4 &1340177672
 Transform:
   m_ObjectHideFlags: 0
