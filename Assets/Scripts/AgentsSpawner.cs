@@ -14,6 +14,7 @@ public class AgentsSpawner : MonoBehaviour
 
     [Header("Agent")]
     [SerializeField] GameObject agentPref;
+    [SerializeField] float agentSize = 0.1f;
 
 
     List<GameObject> agentBufferList;
@@ -41,6 +42,8 @@ public class AgentsSpawner : MonoBehaviour
             agent.name = $"Agent {index}";
             index++;
 
+            agent.transform.localScale = Vector3.one * agentSize;
+
             agentBufferList.Add(agent);
         }
 
@@ -50,12 +53,46 @@ public class AgentsSpawner : MonoBehaviour
     {
         EventsManager.instance.onAgentOffTrigger += AddToBuffer;
 
+        CreateWalls();
+
         StartCoroutine(Spawn());
     }
 
     private void OnDestroy()
     {
+        agentBufferList.Clear();
         EventsManager.instance.onAgentOffTrigger -= AddToBuffer;
+    }
+
+    void CreateWalls()
+    {
+        BoxCollider box;
+
+        box = gameObject.AddComponent<BoxCollider>();
+        box.size = new Vector3(1, zoneLength + 1, zoneLength + 1);
+        box.center = new Vector3(zoneLength/2 + box.size.x / 2, 0, 0);
+
+        box = gameObject.AddComponent<BoxCollider>();
+        box.size = new Vector3(1, zoneLength + 1, zoneLength + 1);
+        box.center = new Vector3(-zoneLength/2 - box.size.x / 2, 0, 0);
+
+        box = gameObject.AddComponent<BoxCollider>();
+        box.size = new Vector3(zoneLength + 1, zoneLength + 1, 1);
+        box.center = new Vector3(0, 0, zoneLength/2 + box.size.z / 2);
+
+        box = gameObject.AddComponent<BoxCollider>();
+        box.size = new Vector3(zoneLength + 1, zoneLength + 1, 1);
+        box.center = new Vector3(0, 0, -zoneLength/2 - box.size.z / 2);
+
+        box = gameObject.AddComponent<BoxCollider>();
+        box.size = new Vector3(zoneLength + 1, 1, zoneLength + 1);
+        box.center = new Vector3(0, zoneLength / 2 + box.size.y / 2, 0);
+
+        box = gameObject.AddComponent<BoxCollider>();
+        box.size = new Vector3(zoneLength + 1, 1, zoneLength + 1);
+        box.center = new Vector3(0, -zoneLength / 2 - box.size.y / 2, 0);
+
+
     }
 
     void AddToBuffer(GameObject obj)
@@ -79,6 +116,9 @@ public class AgentsSpawner : MonoBehaviour
                 agent = Instantiate(agentPref,
                     new Vector3(100, 100, 100),
                     Quaternion.identity);
+
+                agent.transform.localScale = Vector3.one * agentSize;
+
                 agent.name = $"Agent {index}";
                 index++;
 
