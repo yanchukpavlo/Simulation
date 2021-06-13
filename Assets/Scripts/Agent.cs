@@ -35,6 +35,7 @@ public class Agent : MonoBehaviour
 
     void ActiveOff()
     {
+        EventsManager.instance.AgentOffTrigger(gameObject);
         gameObject.SetActive(false);
     }
 

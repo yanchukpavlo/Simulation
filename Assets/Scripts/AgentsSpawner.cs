@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class AgentsSpawner : MonoBehaviour
 {
+    public static AgentsSpawner instance;
+
     [Header("Settings")]
     [SerializeField] int maxAgentCount = 30;
     [SerializeField] float minTameToSpawn = 2f;
@@ -20,6 +22,15 @@ public class AgentsSpawner : MonoBehaviour
 
     private void Awake()
     {
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        instance = this;
+        DontDestroyOnLoad(gameObject);
+
         agentBufferList = new List<GameObject>();
 
         for (int i = 0; i < maxAgentCount; i++)
@@ -37,7 +48,14 @@ public class AgentsSpawner : MonoBehaviour
 
     private void Start()
     {
+        EventsManager.instance.onAgentOffTrigger += AddToBuffer;
+
         StartCoroutine(Spawn());
+    }
+
+    private void OnDestroy()
+    {
+        EventsManager.instance.onAgentOffTrigger -= AddToBuffer;
     }
 
     void AddToBuffer(GameObject obj)
