@@ -7,8 +7,16 @@ public class UI_Manager : MonoBehaviour
 {
     public static UI_Manager instance;
 
+    [Header("UI")]
     [SerializeField] GameObject infoPanel;
     [SerializeField] Text infoText;
+
+    [Header("Raycast")]
+    [SerializeField] LayerMask layer;
+    [SerializeField] float raycastLength = 3000f;
+
+    Camera _camera;
+    Agent agent;
 
     private void Awake()
     {
@@ -22,9 +30,50 @@ public class UI_Manager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    private void Update()
+    {
+        if (Input.GetButtonDown("Fire1"))
+        {
+            if (_camera == null)
+            {
+                _camera = FindObjectOfType<Camera>();
+            }
+
+            RaycastHit hit;
+            Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(ray, out hit, raycastLength, layer))
+            {
+                agent = hit.collider.GetComponent<Agent>();
+                if (agent == null)
+                {
+                    Debug.Log("Raycast did not get.");
+                }
+            }
+            else
+            {
+                agent = null;
+                HideInfoText();
+            }
+        }
+
+        if (agent != null)
+        {
+            if (agent.gameObject.activeSelf)
+            {
+                ShowInfoText(agent.name, agent.HP);
+            }
+            else
+            {
+                agent = null;
+                HideInfoText();
+            }
+        }
+    }
+
     public void ShowInfoText(string name, int hp)
     {
-        infoText.text = $"GameObject name: {name}\n\nObject HP: {hp}";
+        infoText.text = $"Object name: {name}\n\nObject HP: {hp}";
         infoPanel.SetActive(true);
     }
 

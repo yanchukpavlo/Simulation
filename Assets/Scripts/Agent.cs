@@ -16,6 +16,8 @@ public class Agent : MonoBehaviour
     MeshRenderer _meshRenderer;
     Animator _animator;
 
+    public int HP { get { return hp; } }
+
     private void Awake()
     {
         _collider = GetComponent<Collider>();
@@ -69,4 +71,9 @@ public class Agent : MonoBehaviour
             }
         }
     }
+
+    //private void OnMouseDown()
+    //{
+    //    UI_Manager.instance.ShowInfoText(gameObject.name, hp);
+    //}
 }

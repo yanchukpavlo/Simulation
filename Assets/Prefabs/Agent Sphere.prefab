@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3949220440171593782}
   - component: {fileID: 808392029142673853}
   - component: {fileID: 9180109019674476043}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Agent Sphere
   m_TagString: Agent
   m_Icon: {fileID: 0}
