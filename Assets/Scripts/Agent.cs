@@ -6,13 +6,13 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public class Agent : MonoBehaviour
 {
-    [Header("Settings")]
+    [Header("Main")]
     [SerializeField] float forseMult = 200f;
     [SerializeField] int startHP = 3;
 
     int hp;
 
-    private void Start()
+    private void OnEnable()
     {
         hp = startHP;
         StartMove();
@@ -47,6 +47,7 @@ public class Agent : MonoBehaviour
             if(hp <= 0)
             {
                 StopMove();
+                ActiveOff();
             }
         }
     }
