@@ -11,6 +11,18 @@ public class Agent : MonoBehaviour
     [SerializeField] int startHP = 3;
 
     int hp;
+    Collider _collider;
+    Rigidbody _rigidbody;
+    MeshRenderer _meshRenderer;
+    Animator _animator;
+
+    private void Awake()
+    {
+        _collider = GetComponent<Collider>();
+        _rigidbody = GetComponent<Rigidbody>();
+        _meshRenderer = GetComponent<MeshRenderer>();
+        _animator = GetComponent<Animator>();
+    }
 
     private void OnEnable()
     {
@@ -20,19 +32,19 @@ public class Agent : MonoBehaviour
 
     void StartMove()
     {
-        GetComponent<Collider>().enabled = true;
+        _collider.enabled = true;
 
-        GetComponent<Rigidbody>().AddForce(
+        _rigidbody.AddForce(
             new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)) * forseMult, 
             ForceMode.Impulse);
-        GetComponent<MeshRenderer>().material.color = Random.ColorHSV();
+        _meshRenderer.material.color = Random.ColorHSV();
     }
 
     void StopMove()
     {
-        GetComponent<Collider>().enabled = false;
-        GetComponent<Rigidbody>().velocity = Vector3.zero;
-        GetComponent<Animator>().SetTrigger("fadeIn");
+        _collider.enabled = false;
+        _rigidbody.velocity = Vector3.zero;
+        _animator.SetTrigger("fadeIn");
     }
 
     void ActiveOff()
