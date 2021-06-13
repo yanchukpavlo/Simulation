@@ -47,5 +47,6 @@ MonoBehaviour:
   minTameToSpawn: 2
   maxTameToSpawn: 10
   zoneLength: 10
+  wallPhysicMaterial: {fileID: 13400000, guid: ea3383e9d2e3cc94c8ad9499d5a8ad99, type: 2}
   agentPref: {fileID: 1406922541281799032, guid: 7fa564e2eb5cd2840b2de605983bdc10, type: 3}
   agentSize: 1

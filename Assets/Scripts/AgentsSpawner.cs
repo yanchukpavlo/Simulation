@@ -16,10 +16,11 @@ public class AgentsSpawner : MonoBehaviour
     [SerializeField] GameObject agentPref;
     [SerializeField] float agentSize = 1f;
 
-
     List<GameObject> agentBufferList;
     int currentAgentCount = 0;
     int index = 0;
+
+    public float ZoneLength { get { return zoneLength; } }
 
     private void Awake()
     {
